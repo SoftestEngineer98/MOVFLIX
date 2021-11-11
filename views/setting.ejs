@@ -34,33 +34,28 @@
                     <a href="/connect/local" class="btn btn-default">Connect Local</a>
                 <% } %> -->
                 
-              <form action="">
-                <label for="pet-select">Choose a Genre:</label>
+                  <!-- when the button gets push the browser uses the action and method to send information to the server tnat is the email and the password. And ask for a new page. -->
+                  <form action="/setting" method="post">
+                    <div class="form-group">
+                        <label>Choose a Media Type:</label>
+                        <select name="mediaType" id="mediaType">
+                          <option value="">--Choose a Media Type--</option>
+                          <option value="movie">movie</option>
+                          <option value="tv">tv</option>
+                      </select>
+                          </div>
+                    <div class="form-group">
+                        <label>Choose a Language:</label>
+                        <select name="language" id="language">
+                          <option value="">--Please choose an option--</option>
+                          <option value="en">en</option>
+                          <option value="ko">ko</option>
+                      </select>
+                        </div>
 
-                  <select name="pets" id="pet-select">
-                      <option value="">--Please choose an option--</option>
-                      <option value="dog">Dog</option>
-                      <option value="cat">Cat</option>
-                      <option value="hamster">Hamster</option>
-                      <option value="parrot">Parrot</option>
-                      <option value="spider">Spider</option>
-                      <option value="goldfish">Goldfish</option>
-                  </select>
-
-                <label for="pet-select">Choose a Genre:</label>
-
-                  <select name="pets" id="pet-select">
-                      <option value="">--Please choose an option--</option>
-                      <option value="dog">Dog</option>
-                      <option value="cat">Cat</option>
-                      <option value="hamster">Hamster</option>
-                      <option value="parrot">Parrot</option>
-                      <option value="spider">Spider</option>
-                      <option value="goldfish">Goldfish</option>
-                  </select>
-                  <button class="movie" type="submit" onclick="submitSettings">submit</button>
-              </form>
-
+                    <button type="submit" class="btn btn-warning btn-lg">Submit</button>
+                </form>
+                
             </div>
         </div>
         <!-- <div class="col-sm-6">

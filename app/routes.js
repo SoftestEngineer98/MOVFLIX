@@ -1,4 +1,4 @@
-module.exports = function(app, passport, db) {
+module.exports = function(app, passport, db, fetch) {
 
 // normal routes ===============================================================
 
@@ -11,15 +11,15 @@ module.exports = function(app, passport, db) {
     // this is what happens when /profile requested -> get to /profile
     app.get('/profile', isLoggedIn, function(req, res) {
         db.collection('messages').find().toArray((err, result) => {
-          if (err) return console.log(err)
+            if (err) return console.log(err)
           // If they completed the preferences they'll go straight to the Profile Page, but if they didn't complete the preferences they'll get sent to settings.
           // if statements require true, but in this case we used false to keep from going to the profile.
-          if (false) {
+            if (false) {
             // routes to PP
             //  what render does it creates html from ejs and then it sends that html to the browser and then the browser knows what to do
             res.render('profile.ejs', {
-              user : req.user,
-              messages: result
+                user : req.user,
+                messages: result
             })
             } else {
             // routes to setting
@@ -33,13 +33,29 @@ module.exports = function(app, passport, db) {
     // SETTING SECTION =========================
     app.get('/setting', isLoggedIn, function(req, res) {
         db.collection('messages').find().toArray((err, result) => {
-          if (err) return console.log(err)
-          res.render('setting.ejs', {
-            user : req.user,
-            messages: result
-          })
+            if (err) return console.log(err)
+            res.render('setting.ejs', {
+                user : req.user,
+                messages: result
+            })
         })
     });
+
+    // From the setting.ejs I'm going to choose a form; In the request there a mediaType and language and will take that data and will filter it. In order to filter it will need to fetch that data and make it readable by translating it to json also by saying that it's data. This data has all the trending movies and by going through the language and mediaType will make it less complicated orr the consumer. Once that information is place will go b ack to the settings page and gice it to the profile and let it know this is the movie that will show 
+    app.post('/setting', (req, res) => {
+        console.log(req.body.mediaType, req.body.language)
+        fetch(`https://api.themoviedb.org/3/trending/${req.body.mediaType}/week?api_key=40dee5a2a04714337a549eedcaa21958&language=end-US`)
+        .then(response => response.json())
+        .then(data => data.results.original_language[0]);
+
+        data.results.forEach(result => console.log(original_language))
+        res.redirect('/setting')
+
+        // { }, (err, result) => {
+        //     if (err) return console.log(err)
+        //     console.log('saved to database')
+        })
+    
 
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
@@ -50,11 +66,11 @@ module.exports = function(app, passport, db) {
 // message board routes ===============================================================
 
     app.post('/messages', (req, res) => {
-      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+        db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile')
-      })
+        })
     })
 
     // app.put('/upVote', (req, res) => {
@@ -88,10 +104,10 @@ module.exports = function(app, passport, db) {
     // })
 
     app.delete('/messages', (req, res) => {
-      db.collection('messages').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
+        db.collection('messages').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
         if (err) return res.send(500, err)
         res.send('Message deleted!')
-      })
+        })
     })
 
 // =============================================================================
