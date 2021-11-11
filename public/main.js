@@ -8,7 +8,7 @@ function submitSettings(){
   console.log('Settings are now submitted')
   fetch('https://api.themoviedb.org/3/trending/all/week?api_key=40dee5a2a04714337a549eedcaa21958&language=end-US')
   .then(response => response.json())
-  .then(data => console.log(data.results[0]));
+  .then(data => console.log(data));
 }
 
 // Array.from(thumbUp).forEach(function(element) {

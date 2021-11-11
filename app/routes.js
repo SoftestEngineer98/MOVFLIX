@@ -45,11 +45,26 @@ module.exports = function(app, passport, db, fetch) {
     app.post('/setting', (req, res) => {
         console.log(req.body.mediaType, req.body.language)
         fetch(`https://api.themoviedb.org/3/trending/${req.body.mediaType}/week?api_key=40dee5a2a04714337a549eedcaa21958&language=end-US`)
+        // .then() is a method 
+        // anything inside the () is a parameter
+        // .then always expects a callback as a parameter
+        //  a callback is a function passed as a parameter meaning it has to be inside the ()
         .then(response => response.json())
-        .then(data => data.results.original_language[0]);
+        .then(data => data.results)
+        .then(results => {
+            console.log(results)
+            console.log(results.filter(result => result.original_language === req.body.language))
+            // res.send({
+            //     data: results.filter(result => result.original_language === req.body.language)
+            // })
+            // res.redirect('profile.ejs')
+            res.render('profile.ejs', {data: results.filter(result => result.original_language === req.body.language)})
+        })
+        
 
-        data.results.forEach(result => console.log(original_language))
-        res.redirect('/setting')
+        // .then(responce => console.log(responce))
+
+        // data.results.forEach(result => console.log(original_language))
 
         // { }, (err, result) => {
         //     if (err) return console.log(err)
