@@ -54,7 +54,7 @@ module.exports = function(app, passport, db, fetch) {
         .then(results => {
             console.log(results)
             console.log(results.filter(result => result.original_language === req.body.language))
-            // res.send({
+            debugger// res.send({
             //     data: results.filter(result => result.original_language === req.body.language)
             // })
             // res.redirect('profile.ejs')
